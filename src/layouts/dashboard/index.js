@@ -31,8 +31,11 @@ import {
 const DashboardLayout = () => {
   const isDesktop = useResponsive("up", "md");
   const dispatch = useDispatch();
-  const { user_id } = useSelector((state) => state.auth);
-  console.log("user_id in index of layout.dashboard ", user_id);
+  // const { user_id } = useSelector((state) => state.auth);
+
+  const user_id = window.localStorage.getItem("user_id")
+  
+  // console.log("user_id in index of layout.dashboard ", );
   const { open_audio_notification_dialog, open_audio_dialog } = useSelector(
     (state) => state.audioCall
   );
@@ -55,6 +58,7 @@ const DashboardLayout = () => {
     dispatch(UpdateVideoCallDialog({ state: false }));
   };
 
+
   useEffect(() => {
     if (isLoggedIn) {
       window.onload = function () {
@@ -65,7 +69,7 @@ const DashboardLayout = () => {
       };
 
       window.onload();
-      console.log("socket above ");
+
       if (!socket) {
         console.log("socket not connected : ");
         connectSocket(user_id);
@@ -83,7 +87,7 @@ const DashboardLayout = () => {
 
       socket.on("new_message", (data) => {
         const message = data.message;
-        console.log(current_conversation, data);
+
         // check if msg we got is from currently selected conversation
         if (current_conversation?.id === data.conversation_id) {
           dispatch(
@@ -100,8 +104,8 @@ const DashboardLayout = () => {
       });
 
       socket.on("start_chat", (data) => {
-        console.log(data);
         // add / update to conversation list
+
         const existing_conversation = conversations.find(
           (el) => el?.id === data._id
         );
@@ -147,7 +151,7 @@ const DashboardLayout = () => {
       socket?.off("new_message");
       socket?.off("audio_call_notification");
     };
-  }, [isLoggedIn, socket]);
+  }, [isLoggedIn, socket,current_conversation]);
 
   if (!isLoggedIn) {
     return <Navigate to={"/auth/login"} />;

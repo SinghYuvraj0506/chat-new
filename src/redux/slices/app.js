@@ -250,7 +250,6 @@ export const FetchUserProfile = () => {
         },
       })
       .then((response) => {
-        console.log(response);
         dispatch(slice.actions.fetchUser({ user: response.data.data }));
       })
       .catch((err) => {
