@@ -54,15 +54,12 @@ server.listen(port, () => {
 // Add this
 // Listen for when the client connects via socket.io-client
 io.on("connection", async (socket) => {
-  console.log("socket in server.js : ",socket)
-  console.log(JSON.stringify(socket.handshake.query));
   const user_id = socket.handshake.query["user_id"];
-  console.log("the user iid in io socket : ", user_id);
-  console.log(`User connected ${socket.id}`);
+  console.log(`User connected ${user_id} on ${socket.id}`);
 
   if (user_id != null && Boolean(user_id)) {
     try {
-      User.findByIdAndUpdate(user_id, {
+      await User.findByIdAndUpdate(user_id, {
         socket_id: socket.id,
         status: "Online",
       });
@@ -126,9 +123,6 @@ io.on("connection", async (socket) => {
     }).populate("participants", "firstName lastName avatar _id email status");
 
     // db.books.find({ authors: { $elemMatch: { name: "John Smith" } } })
-
-    console.log(existing_conversations);
-
     callback(existing_conversations);
   });
 
@@ -136,14 +130,12 @@ io.on("connection", async (socket) => {
     // data: {to: from:}
 
     const { to, from } = data;
-
     // check if there is any existing conversation
 
     const existing_conversations = await OneToOneMessage.find({
       participants: { $size: 2, $all: [to, from] },
     }).populate("participants", "firstName lastName _id email status");
 
-    console.log(existing_conversations[0], "Existing Conversation");
 
     // if no => create a new OneToOneMessage doc & emit event "start_chat" & send conversation details as payload
     if (existing_conversations.length === 0) {
@@ -156,8 +148,6 @@ io.on("connection", async (socket) => {
         "firstName lastName _id email status"
       );
 
-      console.log(new_chat);
-
       socket.emit("start_chat", new_chat);
     }
     // if yes => just emit event "start_chat" & send conversation details as payload
@@ -168,11 +158,9 @@ io.on("connection", async (socket) => {
 
   socket.on("get_messages", async (data, callback) => {
     try {
-      console.log("the data is in server .js : ", data);
       const { messages } = await OneToOneMessage.findById(
         data.conversation_id
       ).select("messages");
-      console.log("messages in servers.js are : ", messages);
       callback(messages);
     } catch (error) {
       console.log(error);
@@ -181,10 +169,6 @@ io.on("connection", async (socket) => {
 
   // Handle incoming text/link messages
   socket.on("text_message", async (data) => {
-    console.log("Received message:", data);
-
-    // data: {to, from, text}
-
     const { message, conversation_id, from, to, type } = data;
 
     const to_user = await User.findById(to);
@@ -202,12 +186,11 @@ io.on("connection", async (socket) => {
 
     // fetch OneToOneMessage Doc & push a new message to existing conversation
     const chat = await OneToOneMessage.findById(conversation_id);
-    chat.messages.push(new_message);
+    chat?.messages?.push(new_message);
     // save to db`
-    await chat.save({ new: true, validateModifiedOnly: true });
+    await chat?.save({ new: true, validateModifiedOnly: true });
 
     // emit incoming_message -> to user
-
     io.to(to_user?.socket_id).emit("new_message", {
       conversation_id,
       message: new_message,
