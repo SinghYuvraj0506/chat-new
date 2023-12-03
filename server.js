@@ -26,7 +26,7 @@ const VideoCall = require("./models/videoCall");
 // Create an io server and allow for CORS from http://localhost:3000 with GET and POST methods
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://ec2-65-1-148-114.ap-south-1.compute.amazonaws.com",
     methods: ["GET", "POST"],
   },
 });
@@ -46,6 +46,7 @@ mongoose
   });
 
 const port = process.env.PORT || 8000;
+
 
 server.listen(port, () => {
   console.log(`App running on port ${port} ...`);
@@ -338,12 +339,8 @@ io.on("connection", async (socket) => {
   socket.on("start_video_call", async (data) => {
     const { from, to, roomID } = data;
 
-    console.log(data);
-
     const to_user = await User.findById(to);
     const from_user = await User.findById(from);
-
-    console.log("to_user", to_user);
 
     // send notification to receiver of call
     io.to(to_user?.socket_id).emit("video_call_notification", {

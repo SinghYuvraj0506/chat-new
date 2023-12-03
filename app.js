@@ -101,4 +101,8 @@ app.use(xss());
 
 app.use(routes);
 
+app.get("/test",(req,res)=>{
+  return res.send("Hello")
+})
+
 module.exports = app;
