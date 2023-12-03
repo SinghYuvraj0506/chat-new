@@ -36,8 +36,8 @@ const CallDialog = ({ open, handleClose }) => {
 
   const { token } = useSelector((state) => state.auth);
 
-  const appID = 1642584767;
-  const server = "wss://webliveroom1642584767-api.coolzcloud.com/ws";
+  const appID = 1812303285;
+  const server = "2f648eaad8e3ea1ebe329e7967c637e7";
 
   // roomID => ID of conversation => current_conversation.id
   // token => generate on backend & get on App
@@ -316,14 +316,14 @@ const CallDialog = ({ open, handleClose }) => {
             <Stack>
               <Avatar
                 sx={{ height: 100, width: 100 }}
-                src={`https://${S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${call_details?.from_user?.avatar}`}
+                src={`https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg`}
               />
               <audio id="local-audio" controls={false} />
             </Stack>
             <Stack>
               <Avatar
                 sx={{ height: 100, width: 100 }}
-                src={`https://${S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${user?.avatar}`}
+                src={`https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg`}
               />
               <audio id="remote-audio" controls={false} />
             </Stack>

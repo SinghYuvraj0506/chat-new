@@ -1,4 +1,5 @@
 import io from "socket.io-client"; // Add this
+import { BASE_URL } from "./config";
 
 let socket;
 
@@ -7,7 +8,7 @@ const connectSocket = (user_id) => {
   //   query: `user_id=${user_id}`,
   // });
   console.log("user_id in socket.js is : ", user_id);
-  socket = io("http://localhost:3001/", {
+  socket = io(BASE_URL, {
     query: `user_id=${user_id}`,
     
   });

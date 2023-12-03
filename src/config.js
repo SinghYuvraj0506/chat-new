@@ -4,8 +4,8 @@ import { enUS, frFR, zhCN, viVN, arSD } from "@mui/material/locale";
 // routes
 import { PATH_DASHBOARD } from "./routes/paths";
 
-// export const BASE_URL = "https://api.chat.codingmonk.in/";
-export const BASE_URL = "http://localhost:3001/";
+export const BASE_URL = "http://ec2-65-1-148-114.ap-south-1.compute.amazonaws.com:5000/";
+// export const BASE_URL = "http://localhost:3001/";
 
 export const S3_BUCKET_NAME = "codingmonk";
 export const AWS_ACCESS_KEY = "AKIARPJQ4HSYLBIK2TDE";

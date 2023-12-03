@@ -16,6 +16,7 @@ import {
 } from "../../../redux/slices/videoCall";
 import { socket } from "../../../socket";
 import { AWS_S3_REGION, S3_BUCKET_NAME } from "../../../config";
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -23,12 +24,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const CallNotification = ({ open, handleClose }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { user } = useSelector((state) => state.app);
   const [call_details] = useSelector((state) => state.videoCall.call_queue);
 
   const handleAccept = () => {
     socket.emit("video_call_accepted", { ...call_details });
-    dispatch(UpdateVideoCallDialog({ state: true }));
+    dispatch(UpdateVideoCallDialog({ state: false }));
+    navigate(`/test?roomID=${call_details?.roomID}`)
   };
 
   const handleDeny = () => {

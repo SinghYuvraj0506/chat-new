@@ -47,6 +47,7 @@ const DashboardLayout = () => {
     (state) => state.conversation.direct_chat
   );
 
+
   useEffect(() => {
     dispatch(FetchUserProfile());
   }, []);
@@ -57,6 +58,15 @@ const DashboardLayout = () => {
   const handleCloseVideoDialog = () => {
     dispatch(UpdateVideoCallDialog({ state: false }));
   };
+
+
+  // useEffect(() => {
+  //   if(open_video_dialog){
+  //     window.open("/test","_self")
+  //   }
+    
+  // }, [open_video_dialog])
+  
 
 
   useEffect(() => {

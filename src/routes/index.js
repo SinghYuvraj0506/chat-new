@@ -8,6 +8,7 @@ import AuthLayout from "../layouts/auth";
 // config
 import { DEFAULT_PATH } from "../config";
 import LoadingScreen from "../components/LoadingScreen";
+import App from "../Test";
 
 const Loadable = (Component) => (props) => {
   return (
@@ -51,6 +52,7 @@ export default function Router() {
     },
 
     { path: "*", element: <Navigate to="/404" replace /> },
+    { path: "test", element: <App /> },
   ]);
 }
 
