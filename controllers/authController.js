@@ -83,7 +83,7 @@ exports.sendOTP = catchAsync(async (req, res, next) => {
 
   // // TODO send mail
   // mailService.sendEmail({
-  //   from: "shreyanshshah242@gmail.com",
+  //   from: "shreyanshshah242@gmail.com", 
   //   to: user.email,
   //   subject: "Verification OTP",
   //   html: otp(user.firstName, new_otp),
@@ -93,6 +93,22 @@ exports.sendOTP = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: "OTP Sent Successfully!",
+    code:new_otp
+  });
+});
+
+exports.getOTP = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return res.status(404).json({
+      status: "error",
+      message: "There is no user with email address.",
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    code:user?.otp
   });
 });
 

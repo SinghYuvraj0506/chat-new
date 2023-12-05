@@ -80,17 +80,17 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.pre("save", async function (next) {
-  // Only run this function if password was actually modified
-  if (!this.isModified("otp") || !this.otp) return next();
+// userSchema.pre("save", async function (next) {
+//   // Only run this function if password was actually modified
+//   if (!this.isModified("otp") || !this.otp) return next();
 
-  // Hash the otp with cost of 12
-  this.otp = await bcrypt.hash(this.otp.toString(), 12);
+//   // Hash the otp with cost of 12
+//   this.otp = await bcrypt.hash(this.otp.toString(), 12);
 
-  console.log(this.otp.toString(), "FROM PRE SAVE HOOK");
+//   console.log(this.otp.toString(), "FROM PRE SAVE HOOK");
 
-  next();
-});
+//   next();
+// });
 
 userSchema.pre("save", async function (next) {
   // Only run this function if password was actually modified
@@ -120,7 +120,7 @@ userSchema.methods.correctPassword = async function (
 };
 
 userSchema.methods.correctOTP = async function (candidateOTP, userOTP) {
-  return await bcrypt.compare(candidateOTP, userOTP);
+  return candidateOTP === userOTP;
 };
 
 userSchema.methods.changedPasswordAfter = function (JWTTimeStamp) {

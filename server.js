@@ -27,6 +27,7 @@ const VideoCall = require("./models/videoCall");
 const io = new Server(server, {
   cors: {
     origin: "http://ec2-65-1-148-114.ap-south-1.compute.amazonaws.com",
+    // origin:"http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
@@ -136,7 +137,6 @@ io.on("connection", async (socket) => {
     const existing_conversations = await OneToOneMessage.find({
       participants: { $size: 2, $all: [to, from] },
     }).populate("participants", "firstName lastName _id email status");
-
 
     // if no => create a new OneToOneMessage doc & emit event "start_chat" & send conversation details as payload
     if (existing_conversations.length === 0) {
