@@ -136,7 +136,6 @@ export function FetchUsers() {
         }
       )
       .then((response) => {
-        console.log(response);
         dispatch(slice.actions.updateUsers({ users: response.data.data }));
       })
       .catch((err) => {
@@ -180,7 +179,6 @@ export function FetchFriends() {
         }
       )
       .then((response) => {
-        console.log(response);
         dispatch(slice.actions.updateFriends({ friends: response.data.data }));
       })
       .catch((err) => {
@@ -202,7 +200,6 @@ export function FetchFriendRequests() {
         }
       )
       .then((response) => {
-        console.log(response);
         dispatch(
           slice.actions.updateFriendRequests({ requests: response.data.data })
         );
@@ -230,7 +227,6 @@ export const FetchCallLogs = () => {
         },
       })
       .then((response) => {
-        console.log(response);
         dispatch(
           slice.actions.fetchCallLogs({ call_logs: response.data.data })
         );

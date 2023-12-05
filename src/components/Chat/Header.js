@@ -140,20 +140,20 @@ const ChatHeader = () => {
             }}>
               <VideoCamera />
             </IconButton>
-            <IconButton
+            {/* <IconButton
               onClick={() => {
                 
                 dispatch(StartAudioCall(current_conversation.user_id));
               }}
             >
               <Phone />
-            </IconButton>
-            {!isMobile && (
+            </IconButton> */}
+            {/* {!isMobile && (
               <IconButton>
                 <MagnifyingGlass />
               </IconButton>
-            )}
-            <Divider orientation="vertical" flexItem />
+            )} */}
+            {/* <Divider orientation="vertical" flexItem />
             <IconButton
               id="conversation-positioned-button"
               aria-controls={
@@ -202,7 +202,7 @@ const ChatHeader = () => {
                   ))}
                 </Stack>
               </Box>
-            </Menu>
+            </Menu> */}
           </Stack>
         </Stack>
       </Box>

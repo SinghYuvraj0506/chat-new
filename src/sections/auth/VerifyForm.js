@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 // form
 import { useForm } from "react-hook-form";
@@ -11,12 +11,16 @@ import { Eye, EyeSlash } from "phosphor-react";
 import RHFCodes from "../../components/hook-form/RHFCodes";
 import { useDispatch, useSelector } from "react-redux";
 import { VerifyEmail } from "../../redux/slices/auth";
+import axios from "../../utils/axios";
 
 // ----------------------------------------------------------------------
 
 export default function VerifyForm() {
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.auth);
+
+  const [code, setCode] = useState(null)
+
   const VerifyCodeSchema = Yup.object().shape({
     code1: Yup.string().required("Code is required"),
     code2: Yup.string().required("Code is required"),
@@ -27,12 +31,12 @@ export default function VerifyForm() {
   });
 
   const defaultValues = {
-    code1: "",
-    code2: "",
-    code3: "",
-    code4: "",
-    code5: "",
-    code6: "",
+    code1: code?.toString()[0],
+    code2: code?.toString()[1],
+    code3: code?.toString()[2],
+    code4: code?.toString()[3],
+    code5: code?.toString()[4],
+    code6: code?.toString()[5],
   };
 
   const methods = useForm({
@@ -59,6 +63,26 @@ export default function VerifyForm() {
       console.error(error);
     }
   };
+
+
+  useEffect(() => {
+    axios.post(
+        "/auth/get-otp",
+        {
+          email,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (response) {
+        alert(`Your OTP is ${response?.data?.code}`)
+      })
+
+  }, [])
+  
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

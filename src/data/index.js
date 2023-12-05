@@ -14,10 +14,10 @@ const Profile_Menu = [
     title: "Profile",
     icon: <User />,
   },
-  {
-    title: "Settings",
-    icon: <Gear />,
-  },
+  // {
+  //   title: "Settings",
+  //   icon: <Gear />,
+  // },
   {
     title: "Sign Out",
     icon: <SignOut />,
@@ -29,10 +29,10 @@ const Nav_Buttons = [
     index: 0,
     icon: <ChatCircleDots />,
   },
-  {
-    index: 1,
-    icon: <Users />,
-  },
+  // {
+  //   index: 1,
+  //   icon: <Users />,
+  // },
   {
     index: 2,
     icon: <Phone />,
@@ -40,10 +40,10 @@ const Nav_Buttons = [
 ];
 
 const Nav_Setting = [
-  {
-    index: 3,
-    icon: <GearSix />,
-  },
+  // {
+  //   index: 3,
+  //   icon: <GearSix />,
+  // },
 ];
 
 const CallList = [

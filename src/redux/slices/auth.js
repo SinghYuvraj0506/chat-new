@@ -13,6 +13,7 @@ const initialState = {
   user_id: null,
   email: "",
   error: false,
+  code:null
 };
 
 const slice = createSlice({
@@ -35,6 +36,9 @@ const slice = createSlice({
     },
     updateRegisterEmail(state, action) {
       state.email = action.payload.email;
+    },
+    updateOTP(state, action) {
+      state.code = action.payload.otp;
     },
   },
 });
@@ -167,6 +171,7 @@ export function LoginUser(formValues) {
 export function LogoutUser() {
   return async (dispatch, getState) => {
     window.localStorage.removeItem("user_id");
+    window.localStorage.removeItem("redux-root");
     dispatch(slice.actions.signOut());
   };
 }
@@ -196,6 +201,11 @@ export function RegisterUser(formValues) {
         dispatch(
           showSnackbar({ severity: "success", message: response.data.message })
         );
+
+        dispatch(
+          slice.actions.updateOTP({otp:response?.data?.code})
+        )
+
         dispatch(
           slice.actions.updateIsLoading({ isLoading: false, error: false })
         );

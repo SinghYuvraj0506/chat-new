@@ -23,14 +23,16 @@ const slice = createSlice({
         const user = el.participants.find(
           (elm) => elm._id.toString() !== user_id
         );
+        let date = new Date(el?.messages.slice(-1)[0]?.created_at)
+        let time = date?.toLocaleTimeString()?.split(":")
         return {
           id: el._id,
           user_id: user?._id,
           name: `${user?.firstName} ${user?.lastName}`,
-          online: user?.status === "Online",
+          online: user?.status,
           img: `https://${S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${user?.avatar}`,
           msg: el.messages.slice(-1)[0].text, 
-          time: "9:36",
+          time: time[0] + ":" + time[1],
           unread: 0,
           pinned: false,
           about: user?.about,
@@ -49,14 +51,18 @@ const slice = createSlice({
             const user = this_conversation.participants.find(
               (elm) => elm._id.toString() !== user_id
             );
+
+            let date = new Date(el?.messages.slice(-1)[0]?.created_at)
+        let time = date?.toLocaleTimeString()?.split(":")
+
             return {
-              id: this_conversation._id._id,
+              id: this_conversation._id,
               user_id: user?._id,
               name: `${user?.firstName} ${user?.lastName}`,
-              online: user?.status === "Online",
-              img: faker.image.avatar(),
-              msg: faker.music.songName(),
-              time: "9:36",
+              online: user?.status,
+              img: `https://${S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${user?.avatar}`,
+              msg: el?.messages?.slice(-1)[0]?.text,
+             time: time[0] + ":" + time[1],
               unread: 0,
               pinned: false,
             };
@@ -76,10 +82,10 @@ const slice = createSlice({
         id: this_conversation._id._id,
         user_id: user?._id,
         name: `${user?.firstName} ${user?.lastName}`,
-        online: user?.status === "Online",
-        img: faker.image.avatar(),
-        msg: faker.music.songName(),
-        time: "9:36",
+        online: user?.status,
+        img: `https://${S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${user?.avatar}`,
+        msg: "",
+        // time: "9:36",
         unread: 0,
         pinned: false,
       });
